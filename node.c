@@ -1,13 +1,16 @@
 
-/**Give a weight, return a pointer to a node*/
 node* buildNode(int id, int weight) {
    node* newnode = (node*) malloc(sizeof(node));
    newnode->weight = weight;
    newnode->id = id;
+   newnode->edges = buildEdgeArray();
    return newnode;
 }
 
-/**Build an node array, return pointer to it*/
+void addEdgeForNode(node* myNode, edge* myEdge) {
+   addEdge(myNode->edges, myEdge);
+}
+
 nodeArray* buildNodeArray() {
    
    nodeArray* newNodes = (nodeArray*)malloc(sizeof(nodeArray));
@@ -17,7 +20,6 @@ nodeArray* buildNodeArray() {
    return newNodes;
 }
 
-/**Add node to node array, increasing its size if needed*/
 void addNode(nodeArray* nodes, node* newnode) {
 
    if (nodes->length >= nodes->maxlength) {
@@ -32,7 +34,6 @@ void addNode(nodeArray* nodes, node* newnode) {
    nodes->length++;
 }
 
-/**copy length elements of an array of node to another array*/
 void copyNodes(int length, node* copyFrom, node* copyTo) {
 
    int i;
@@ -40,64 +41,4 @@ void copyNodes(int length, node* copyFrom, node* copyTo) {
       copyTo[i] = copyFrom[i];
    }
 
-}
-
-NodeTreeNode* buildNodeTreeNode(node* mynode) {
-   NodeTreeNode* newTreeNode = (NodeTreeNode*) malloc(sizeof(NodeTreeNode));
-   newTreeNode->meNode = mynode;
-   return newTreeNode;
-}
-
-bool addToNodeTree(node* newnode, NodeTreeNode* root) {
-
-   if (root->meNode->id > newnode->id) {
-      if (root->leftChild != NULL) {
-         addToNodeTree(newnode, root->leftChild);
-      }
-      else {
-         root->leftChild = buildNodeTreeNode(newnode);
-         return true;
-      }
-   }
-   else if (root->meNode->id < newnode->id) {
-      if (root->rightChild != NULL) {
-         addToNodeTree(newnode, root->rightChild);
-      }
-      else {
-         root->rightChild = buildNodeTreeNode(newnode);
-         return true;
-      }
-   }
-   else {
-      //This node is already on the tree
-      return false;
-   }
-}
-
-void printNodeTree(NodeTreeNode* root) {
-
-   if (root->leftChild != NULL) {
-      printNodeTree(root->leftChild);
-   }
-
-   printf("%d, ", root->meNode->id);
-
-   if (root->rightChild != NULL) {
-      printNodeTree(root->rightChild);
-   }
-  
-}
-
-void printNodes(nodeArray* nodes) {
-   int i;
-   for (i=0; i<nodes->length; i++) {
-      printNode(&nodes->nodes[i]);
-      if (i != (nodes->length-1)) {
-         printf(", ");
-      }
-   }
-}
-
-void printNode(node* mynode) {
-   printf("<%d>", mynode->id);
 }

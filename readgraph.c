@@ -1,39 +1,51 @@
 
-void readGraph() {
+graph* readGraph(char* filename) {
 
-   char line[SMALLARRAY];
+   char line[MAXARRAY];
    char* lineNoSpace;
-   int id;
    int dir;
    int wt;
+   int graphID;
+   int nodeCount;
+   int nodeID = 0;
+   int edgeID = 0;
+   int headID;
+   int tailID;
+   node* head;
+   node* tail;
    graph* myGraph;
    node* myNode;
-   NodeTreeNode* root = NULL;
+   edge* myEdge;
 
-   FILE* graphfile = fopen("graph.txt", "r");
+   FILE* graphfile = fopen(filename, "r");
    while (fgets(line, 100, graphfile) != NULL) {
       
       lineNoSpace = trimFrontWhiteSpace(line);
 
-      if (sscanf(lineNoSpace, "<graph id=%d dir=%d>", &id, &dir) == 2) {
-          myGraph = buildGraph(id, (bool) dir);
-          printf("A graph with id %d and dir %d was created\n", id, dir);
+      if (sscanf(lineNoSpace, "<graph id=%d dir=%d>", &graphID, &dir) == 2) {
+          myGraph = buildGraph(graphID, (bool) dir);
       }
-      else if (sscanf(lineNoSpace, "<node id=%d weight=%d/>", &id, &wt) == 2) {
-          myNode = buildNode(id, wt);
-          if (root == NULL) {
-             root = buildNodeTreeNode(myNode);
-          }
-          else {
-             addToNodeTree(myNode, root);
-          }
-          printf("A node with id %d and weight %d was created\n", id, wt);
+      else if (sscanf(lineNoSpace, "<node weight=%d/>", &wt) == 1) {
+          myNode = buildNode(nodeID, wt);
+          nodeID++;
+          addNode(myGraph, myNode);
+      }
+      else if (sscanf(lineNoSpace, "<edge weight=%d head=%d tail=%d/>", 
+         &wt, &headID, &tailID) == 3) {
+
+         head = getNode(myGraph, headID);
+         tail = getNode(myGraph, tailID);
+
+         myEdge = buildEdge(edgeID, wt, head, tail);
+         edgeID++;
+         addEdge(myGraph, myEdge);
+         addEdgeForNode(head, myEdge);
+         addEdgeForNode(tail, myEdge);
       }
 
    }
 
-   printf("\nNode tree: ");
-   printNodeTree(root); 
+   return myGraph;
 }
 
 char* trimFrontWhiteSpace(char* str) {

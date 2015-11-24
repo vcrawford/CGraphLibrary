@@ -1,6 +1,4 @@
 
-/**Give a weight and pointers to the two nodes it connects
-   and get in return a pointer to an edge*/
 edge* buildEdge(int id, int weight, node* tail, node* head) {
    edge* newedge = (edge*) malloc(sizeof(edge));
    newedge->weight = weight;
@@ -10,7 +8,6 @@ edge* buildEdge(int id, int weight, node* tail, node* head) {
    return newedge;
 }
 
-/**Build an edge array, return pointer to it*/
 edgeArray* buildEdgeArray() {
    
    edgeArray* newEdges = (edgeArray*)malloc(sizeof(edgeArray));
@@ -20,7 +17,6 @@ edgeArray* buildEdgeArray() {
    return newEdges;
 }
 
-/**Add edge to edge array, increasing its size if needed*/
 void addEdge(edgeArray* edges, edge* newedge) {
 
    if (edges->length >= edges->maxlength) {
@@ -35,7 +31,6 @@ void addEdge(edgeArray* edges, edge* newedge) {
    edges->length++;
 }
 
-/**copy length elements of an array of edges to another array*/
 void copyEdges(int length, edge* copyFrom, edge* copyTo) {
 
    int i;
@@ -45,16 +40,3 @@ void copyEdges(int length, edge* copyFrom, edge* copyTo) {
 
 }
 
-void printEdges(edgeArray* edges) {
-   int i;
-   for (i=0; i<edges->length; i++) {
-      printEdge(&edges->edges[i]);
-      if (i != (edges->length-1)) {
-         printf(", ");
-      }
-   }
-}
-
-void printEdge(edge* myedge) {
-   printf("<%d,%d>", myedge->tail->id, myedge->head->id);
-}
