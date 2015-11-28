@@ -1,40 +1,39 @@
 
-node* buildNode(int id, int weight) {
-   node* newnode = (node*) malloc(sizeof(node));
-   newnode->weight = weight;
-   newnode->id = id;
-   newnode->edges = buildEdgeArray();
-   return newnode;
+GraphNode* buildGraphNode(int id, int weight) {
+   GraphNode* node = (GraphNode*) malloc(sizeof(GraphNode));
+   node->weight = weight;
+   node->id = id;
+   node->edgeArray = buildEdgeArray();
+   return node;
 }
 
-void addEdgeForNode(node* myNode, edge* myEdge) {
-   addEdge(myNode->edges, myEdge);
+void addEdgeForNode(GraphNode* node, GraphEdge* edge) {
+   addEdgeToArray(node->edgeArray, edge);
 }
 
-nodeArray* buildNodeArray() {
-   
-   nodeArray* newNodes = (nodeArray*)malloc(sizeof(nodeArray));
-   newNodes->length = 0;
-   newNodes->maxlength = MAXARRAY;
-   newNodes->nodes = (node*)malloc(MAXARRAY*sizeof(node));
-   return newNodes;
+GraphNodeArray* buildNodeArray() {
+   GraphNodeArray* nodeArray = (GraphNodeArray*) malloc(sizeof(GraphNodeArray));
+   nodeArray->length = 0;
+   nodeArray->maxlength = MAXARRAY;
+   nodeArray->nodes = (GraphNode*) malloc(MAXARRAY*sizeof(GraphNode));
+   return nodeArray;
 }
 
-void addNode(nodeArray* nodes, node* newnode) {
+void addNodeToArray(GraphNodeArray* nodeArray, GraphNode* node) {
 
-   if (nodes->length >= nodes->maxlength) {
-      node* newNodes = (node*)malloc(2*nodes->maxlength*sizeof(node));
-      copyNodes(nodes->length, nodes->nodes, newNodes);
-      free(nodes->nodes);
-      nodes->nodes = newNodes;
-      nodes->maxlength*=2;
+   if (nodeArray->length >= nodeArray->maxlength) {
+      GraphNode* nodes = (GraphNode*) malloc(2*nodeArray->maxlength*sizeof(GraphNode));
+      copyNodes(nodeArray->length, nodeArray->nodes, nodes);
+      free(nodeArray->nodes);
+      nodeArray->nodes = nodes;
+      nodeArray->maxlength*=2;
    }
 
-   nodes->nodes[nodes->length] = *newnode;
-   nodes->length++;
+   nodeArray->nodes[nodeArray->length] = *node;
+   nodeArray->length++;
 }
 
-void copyNodes(int length, node* copyFrom, node* copyTo) {
+void copyNodes(int length, GraphNode* copyFrom, GraphNode* copyTo) {
 
    int i;
    for (i = 0; i < length; i++) {

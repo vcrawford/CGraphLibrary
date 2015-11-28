@@ -1,51 +1,49 @@
 
-graph* buildGraph(int id, bool dir) {
-   graph* newgraph = (graph*)(malloc(sizeof(graph)));
-   newgraph->id = id;
-   newgraph->dir = dir;
-   newgraph->nodes = buildNodeArray();
-   newgraph->edges = buildEdgeArray();
-   return newgraph;
+Graph* buildGraph(int id, bool dir) {
+   Graph* graph = (Graph*) (malloc(sizeof(Graph)));
+   graph->id = id;
+   graph->dir = dir;
+   graph->nodeArray = buildNodeArray();
+   graph->edgeArray = buildEdgeArray();
+   return graph;
 }
 
-void addNode(graph* mygraph, node* mynode) {
-
-   addNode(mygraph->nodes, mynode);
+void addNodeToGraph(Graph* graph, GraphNode* node) {
+   addNodeToArray(graph->nodeArray, node);
 }
 
-void addEdge(graph* mygraph, edge* myedge) {
-
-   addEdge(mygraph->edges, myedge);
+void addEdgeToGraph(Graph* graph, GraphEdge* edge) {
+   addEdgeToArray(graph->edgeArray, edge);
 }
 
-node* getNode(graph* myGraph, int id) {
-   return myGraph->nodes->nodes + id; 
+GraphNode* getNodeFromID(Graph* graph, int id) {
+   return graph->nodeArray->nodes + id; 
 }
 
-void printGraph(graph* mygraph) {
+void printGraph(Graph* graph) {
    int i, j;
-   node* myNode;
-   edge* myEdge;
+   GraphNode* node;
+   GraphEdge* edge;
 
-   printf("\nGraph %d:\n", mygraph->id);
+   printf("\nGraph %d:\n", graph->id);
    printf(" Nodes: ");
-   for (i = 0; i < mygraph->nodes->length; i++) {
-      printf("<%d> ", (mygraph->nodes->nodes + i)->id);
+   for (i = 0; i < graph->nodeArray->length; i++) {
+      printf("<%d> ", (graph->nodeArray->nodes + i)->id);
    }
    printf("\n");
 
    printf(" Edges: ");
-   for (i = 0; i < mygraph->edges->length; i++) {
-      printf("<%d,%d> ", (mygraph->edges->edges + i)->tail->id, (mygraph->edges->edges + i)->head->id);
+   for (i = 0; i < graph->edgeArray->length; i++) {
+      printf("<%d,%d> ", (graph->edgeArray->edges + i)->tail->id, (graph->edgeArray->edges + i)->head->id);
    }
 
    printf("\n\nNodes to Edges:\n");
-   for (i = 0; i < mygraph->nodes->length; i++) {
-      myNode = mygraph->nodes->nodes + i;
-      printf(" <%d>: ", myNode->id);
-      for (j = 0; j < myNode->edges->length; j++) {
-         myEdge = myNode->edges->edges + j;
-         printf("<%d,%d> ", myEdge->tail->id, myEdge->head->id);
+   for (i = 0; i < graph->nodeArray->length; i++) {
+      node = graph->nodeArray->nodes + i;
+      printf(" <%d>: ", node->id);
+      for (j = 0; j < node->edgeArray->length; j++) {
+         edge = node->edgeArray->edges + j;
+         printf("<%d,%d> ", edge->tail->id, edge->head->id);
       }
       printf("\n");
    }

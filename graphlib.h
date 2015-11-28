@@ -1,62 +1,61 @@
-#define MAXARRAY 1000
-#include<stdlib.h>
-#define node struct node
-#define nodeArray struct nodeArray
-#define edge struct edge
-#define edgeArray struct edgeArray
-#define graph struct graph
+#define MAXARRAY 100
+#define GraphNode struct GraphNode
+#define GraphNodeArray struct GraphNodeArray
+#define GraphEdge struct GraphEdge
+#define GraphEdgeArray struct GraphEdgeArray
+#define Graph struct Graph
 
-node {
+GraphNode {
    int id;
    int weight;
-   edgeArray* edges;
+   GraphEdgeArray* edgeArray;
 };
 
-nodeArray {
-   node* nodes;
+GraphNodeArray {
+   GraphNode* nodes;
    int length;
    int maxlength;
 };
 
-edge {
+GraphEdge {
    int id;
    int weight;
-   node* tail;
-   node* head;
+   GraphNode* tail;
+   GraphNode* head;
 };
 
-edgeArray {
-   edge* edges;
+GraphEdgeArray {
+   GraphEdge* edges;
    int length;
    int maxlength;
 };
 
-graph {
+Graph {
    int id;
-   edgeArray* edges;
-   nodeArray* nodes;
+   GraphEdgeArray* edgeArray;
+   GraphNodeArray* nodeArray;
    bool dir;
 };
 
-graph* readGraph(char*);
+Graph* readGraph(char*);
 char* trimFrontWhiteSpace(char*);
 
-graph* buildGraph(int, bool);
-void printGraph(graph*);
-void addNode(graph*, node*);
-void addEdge(graph*, edge*);
+Graph* buildGraph(int, bool);
+void printGraph(Graph*);
+void addNodeToGraph(Graph*, GraphNode*);
+void addEdgeToGraph(Graph*, GraphEdge*);
 
-node* getNode(graph*, int);
-edge* buildEdge(int, int, node*, node*);
-void copyEdges(int, edge*, edge*);
-void addEdge(edgeArray*, edge*);
-edgeArray* buildEdgeArray();
+GraphNode* getNodeFromID(Graph*, int);
+GraphEdge* buildGraphEdge(int, int, GraphNode*, GraphNode*);
+void copyEdges(int, GraphEdge*, GraphEdge*);
+void addEdgeToArray(GraphEdgeArray*, GraphEdge*);
+GraphEdgeArray* buildEdgeArray();
 
-node* buildNode(int, int);
-void copyNodes(int, node*, node*);
-void addNode(nodeArray*, node*);
-nodeArray* buildNodeArray();
-void addEdgeForNode(node*, edge*);
+GraphNode* buildGraphNode(int, int);
+void copyNodes(int, GraphNode*, GraphNode*);
+void addNodeToArray(GraphNodeArray*, GraphNode*);
+GraphNodeArray* buildNodeArray();
+void addEdgeForNode(GraphNode*, GraphEdge*);
 
 #include "node.c"
 #include "edge.c"
