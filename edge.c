@@ -20,6 +20,8 @@ GraphEdgeArray* buildEdgeArray() {
 
 void addEdgeToArray(GraphEdgeArray* edgeArray, GraphEdge* edge) {
 
+   //printf("one\n");
+   //printf("edgeArray length %d\n", edgeArray->length);
    if (edgeArray->length >= edgeArray->maxlength) {
       GraphEdge* edges = (GraphEdge*) malloc(2*edgeArray->maxlength*sizeof(GraphEdge));
       copyEdges(edgeArray->length, edgeArray->edges, edges);
@@ -28,6 +30,7 @@ void addEdgeToArray(GraphEdgeArray* edgeArray, GraphEdge* edge) {
       edgeArray->maxlength*=2;
    }
 
+   //printf("two\n");
    edgeArray->edges[edgeArray->length] = *edge;
    edgeArray->length++;
 }

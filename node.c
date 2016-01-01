@@ -8,7 +8,10 @@ GraphNode* buildGraphNode(int id, int weight) {
 }
 
 void addEdgeForNode(GraphNode* node, GraphEdge* edge) {
+   //printf("Adding edge <%d,%d> to node %d. The edge array should now have length %d.\n", edge->tail->id, edge->head->id, node->id, node->edgeArray->length + 1);
+   //printf("one!\n");
    addEdgeToArray(node->edgeArray, edge);
+   //printf("two!\n");
 }
 
 GraphNodeArray* buildNodeArray() {
@@ -41,3 +44,34 @@ void copyNodes(int length, GraphNode* copyFrom, GraphNode* copyTo) {
    }
 
 }
+
+/**
+ * Remove the first element from a nodeArray, and return a pointer to it
+ * Like dequeueing a queue, assuming that new elements are being added to the end
+ */
+GraphNode* removeFirstElement(GraphNodeArray* nodeArray) {
+
+   //here is the first element
+   GraphNode* node = nodeArray->nodes;
+   //have the array now start at the second node
+   nodeArray->nodes = nodeArray->nodes + 1;
+   //one less element then
+   nodeArray->length--;
+
+   return node;
+}
+
+/**
+ * Remove the last element from a nodeArray, and return a pointer to it
+ * Like popping a stack, assuming new elements are being added to the end.
+ */
+GraphNode* removeLastElement(GraphNodeArray* nodeArray) {
+
+   //here is the last node
+   GraphNode* node = nodeArray->nodes + nodeArray->length - 1;
+   //one less node then
+   nodeArray->length--;
+
+   return node;
+}
+

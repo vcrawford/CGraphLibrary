@@ -24,23 +24,28 @@ Graph* readGraph(char* filename) {
 
       if (sscanf(lineNoSpace, "<graph id=%d dir=%d>", &graphID, &dir) == 2) {
           graph = buildGraph(graphID, (bool) dir);
+          //printf("Built graph %d\n", graph->id);
       }
       else if (sscanf(lineNoSpace, "<node weight=%d/>", &wt) == 1) {
           node = buildGraphNode(nodeID, wt);
           nodeID++;
           addNodeToGraph(graph, node);
+          //printf("Added node %d\n", node->id);
       }
-      else if (sscanf(lineNoSpace, "<edge weight=%d head=%d tail=%d/>", 
-         &wt, &headID, &tailID) == 3) {
+      else if (sscanf(lineNoSpace, "<edge weight=%d tail=%d head=%d/>", 
+         &wt, &tailID, &headID) == 3) {
 
          head = getNodeFromID(graph, headID);
          tail = getNodeFromID(graph, tailID);
 
-         edge = buildGraphEdge(edgeID, wt, head, tail);
+         edge = buildGraphEdge(edgeID, wt, tail, head);
+         //printf("Built edge <%d,%d>\n", tail->id, head->id);
          edgeID++;
          addEdgeToGraph(graph, edge);
-         addEdgeForNode(head, edge);
+         printf("Adding edge <%d,%d> to node %d\n", edge->tail->id, edge->head->id, tail->id);
+         //printf("one!\n");
          addEdgeForNode(tail, edge);
+         //printf("two!\n");
       }
 
    }
